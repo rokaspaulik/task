@@ -1,16 +1,16 @@
 {
-    "name": "paysera/commission-task-skeleton",
-    "description": "Skeleton for Paysera recruitment task",
+    "name": "rokas/rokasapp",
+    "description": "Task for job recruitment",
     "keywords": [],
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Paysera\\CommissionTask\\": "src"
+            "RokasApp\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Paysera\\CommissionTask\\Tests\\": "tests"
+            "RokasApp\\Tests\\": "tests"
         }
     },
     "require": {
@@ -18,8 +18,8 @@
         "ext-bcmath": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5",
-        "friendsofphp/php-cs-fixer": "2.16"
+        "friendsofphp/php-cs-fixer": "2.16",
+        "phpunit/phpunit": "^6.5"
     },
     "config": {
         "sort-packages": true,

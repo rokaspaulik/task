@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Paysera\CommissionTask\Tests\Service;
+namespace RokasApp\Tests\Service;
 
 use PHPUnit\Framework\TestCase;
-use Paysera\CommissionTask\Service\Math;
+use RokasApp\Service\Math;
 
 class MathTest extends TestCase
 {
