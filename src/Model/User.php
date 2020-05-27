@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RokasApp\Model;
 
 class User
@@ -9,11 +11,13 @@ class User
 
     private $id;
     private $type;
+    private $cashOperations;
 
     public function __construct(int $id, string $type)
     {
         $this->id = $id;
         $this->type = $type;
+        $this->cashOperations = [];
     }
 
     public function getId()
@@ -24,6 +28,11 @@ class User
     public function getType()
     {
         return $this->type;
+    }
+
+    public function addCashOperation(CashOperation $cashOperation)
+    {
+        $this->cashOperations[] = $cashOperation;
     }
 
     public function __toString()

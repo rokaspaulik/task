@@ -1,6 +1,8 @@
 <?php
 
-namespace RokasApp\Model;
+declare(strict_types=1);
+
+namespace RokasApp\Data;
 
 class Currency
 {
