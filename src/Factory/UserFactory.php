@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace RokasApp\Factory;
 
 use RokasApp\Model\User;
+use RokasApp\Repository\Storage;
 
 class UserFactory
 {
-    public static function create($id, $type)
+    public static function create($id, $type, Storage $storage)
     {
-        return new User($id, $type);
+        $user = new User($id, $type);
+
+        $storage->storeUser($user);
+
+        return $user;
     }
 }
