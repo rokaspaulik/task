@@ -1,4 +1,5 @@
 # Rokas task
 
-So far just scratching the surface:
-- php index.php
+Just write this command:
+
+`php script.php input.csv`

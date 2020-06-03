@@ -1,7 +1,6 @@
 <?php
 
 use RokasApp\Factory\CashOperationFactory;
-use RokasApp\Factory\UserFactory;
 use RokasApp\Repository\Storage;
 use RokasApp\Service\FeeCalculator;
 
