@@ -26,6 +26,26 @@ class CashOperation
         $this->amount = $amount;
     }
 
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
     public function __toString()
     {
         return "\noperationDate: ".$this->date."\noperationUserId: ".$this->user->getId()."\noperationUserType: ".$this->user->getType()."\noperationType: ".$this->type."\noperationCurrency: ".$this->currency."\noperationAmount: ".$this->amount;

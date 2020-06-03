@@ -37,7 +37,7 @@ class Storage
             }
         }
 
-        UserFactory::create($id, $type, $this);
+        return UserFactory::create($id, $type, $this);
     }
 
     public function storeCashOperation(CashOperation $cashOperation)
