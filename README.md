@@ -4,6 +4,15 @@ Just write this command:
 
 `php script.php input.csv`
 
+# Rokas developer comments
+
+> I understand that I did not write code tests,
+> but here in writing testable code I am not yet
+> as experienced as I would like to be to confidently
+> show off my ability to write Unit Tests and therefore left
+> default classes you provided me with (Service/Math and tests/Service/MathTest)
+> in case I later write Unit Tests after consulting with someone more experienced than me
+
 # Requirements
 
 - there are no strict deadlines, but lets keep in touch - if you have any problems or have no free time available for the task, just contact us;
