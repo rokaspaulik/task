@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace RokasApp\Model;
 
-use RokasApp\Model\User;
-
 class CashOperation
 {
     const CASH_TYPE_OUT = 'cash_out';

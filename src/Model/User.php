@@ -37,6 +37,6 @@ class User
 
     public function __toString()
     {
-        return "\nuserID: " . $this->id . "\nuserType: " . $this->type;
+        return "\nuserID: ".$this->id."\nuserType: ".$this->type;
     }
 }

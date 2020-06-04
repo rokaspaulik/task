@@ -9,7 +9,6 @@ use RokasApp\Model\CashOperation;
 use RokasApp\Model\User;
 
 class FeeCalculator {
-
     private $userDiscountAmountLeft;
     private $userOperationsThisWeek;
     private $userLastOperationDate;
@@ -24,7 +23,6 @@ class FeeCalculator {
     private function resetUserDiscount(User $user)
     {
         $userId = $user->getId();
-
         $this->userOperationsThisWeek[$userId] = 1;
         $this->userDiscountAmountLeft[$userId] = 1000;
     }
@@ -34,10 +32,12 @@ class FeeCalculator {
         $operationDate = new DateTime($cashOperation->getDate());
         $userId = $cashOperation->getUser()->getId();
 
-        if (isset($this->userLastOrderDate[$userId])) {
-
+        if (isset($this->userLastOperationDate[$userId])) {
+            
             $lastOperationDate = $this->userLastOperationDate[$userId];
-            if ($operationDate->format("W") != $lastOperationDate->format("W") || $operationDate->format("Y") != $lastOperationDate->format("Y")) {
+            $yearDifference = abs(($operationDate->format("Y") - $lastOperationDate->format("Y")));
+
+            if ($operationDate->format("W") != $lastOperationDate->format("W") || $yearDifference > 1) {
                 $this->resetUserDiscount($cashOperation->getUser());
             }
 
@@ -63,40 +63,50 @@ class FeeCalculator {
 
     public function calculate(CashOperation $cashOperation)
     {
-        // TO-DO: finish this later
-
+        // TO-DO: add currency conversion
         $this->checkUserOperationsThisWeek($cashOperation->getUser());
         $this->checkUserLastOperationDate($cashOperation);
+
+        $amount = $cashOperation->getAmount();
+        $userId = $cashOperation->getUser()->getId();
 
         switch ($cashOperation->getType()) {
             case CashOperation::CASH_TYPE_IN:
 
-                $fee = $cashOperation->getAmount() * 0.0003;
-
+                $fee = $amount * 0.0003;
                 if ($fee > 5) {
-                    $fee = 5.00;
+                    $fee = 5;
                 }
-
-                return $fee;
 
                 break;
             case CashOperation::CASH_TYPE_OUT:
-
                 switch ($cashOperation->getUser()->getType()) {
                     case User::USER_TYPE_LEGAL:
-        
-                        return 'legal';
-        
+
+                        $fee = $amount * 0.003;
+                        if ($fee < 0.5) {
+                            $fee = 0.5;
+                        }
+
                         break;
                     case User::USER_TYPE_NATURAL:
-        
-                        return 'nat';
-        
+
+                        if ($this->userDiscountAmountLeft[$userId] > 0) {
+                            if ($amount < $this->userDiscountAmountLeft[$userId]) {
+                                $this->userDiscountAmountLeft[$userId] -= $amount;
+                                $amount = 0;
+                            } else {
+                                $amount -= $this->userDiscountAmountLeft[$userId];
+                                $this->userDiscountAmountLeft[$userId] = 0;
+                            }
+                        }
+                        $fee = $amount * 0.003;
+
                         break;
                 }
-
                 break;
         }
-    }
 
+        return number_format($fee, 2);
+    }
 }
