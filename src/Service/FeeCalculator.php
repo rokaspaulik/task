@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RokasApp\Service;
 
 use DateTime;
+use RokasApp\Data\Currency;
 use RokasApp\Model\CashOperation;
 use RokasApp\Model\User;
 
@@ -63,7 +64,6 @@ class FeeCalculator {
 
     public function calculate(CashOperation $cashOperation)
     {
-        // TO-DO: add currency conversion
         $this->checkUserOperationsThisWeek($cashOperation->getUser());
         $this->checkUserLastOperationDate($cashOperation);
 
@@ -92,11 +92,34 @@ class FeeCalculator {
                     case User::USER_TYPE_NATURAL:
 
                         if ($this->userDiscountAmountLeft[$userId] > 0) {
-                            if ($amount < $this->userDiscountAmountLeft[$userId]) {
-                                $this->userDiscountAmountLeft[$userId] -= $amount;
+
+                            switch ($cashOperation->getCurrency()) {
+                                case Currency::CURRENCY_JPY:
+                                    $discount = $this->userDiscountAmountLeft[$userId] * 129.53;
+                                    break;
+                                case Currency::CURRENCY_USD:
+                                    $discount = $this->userDiscountAmountLeft[$userId] * 1.1497;
+                                    break;
+                                default:
+                                    $discount = $this->userDiscountAmountLeft[$userId];
+                                    break;
+                            }
+                            
+                            if ($amount < $discount) {
+                                switch ($cashOperation->getCurrency()) {
+                                    case Currency::CURRENCY_JPY:
+                                        $this->userDiscountAmountLeft[$userId] -= ceil($amount / 129.53);
+                                        break;
+                                    case Currency::CURRENCY_USD:
+                                        $this->userDiscountAmountLeft[$userId] -= $amount / 1.1497;
+                                        break;
+                                    default:
+                                        $this->userDiscountAmountLeft[$userId] -= $amount;
+                                        break;
+                                }
                                 $amount = 0;
                             } else {
-                                $amount -= $this->userDiscountAmountLeft[$userId];
+                                $amount -= $discount;
                                 $this->userDiscountAmountLeft[$userId] = 0;
                             }
                         }
@@ -105,6 +128,10 @@ class FeeCalculator {
                         break;
                 }
                 break;
+        }
+
+        if ($cashOperation->getCurrency() == Currency::CURRENCY_JPY) {
+            return ceil($fee);
         }
 
         return number_format($fee, 2);
