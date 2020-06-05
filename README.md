@@ -1,6 +1,6 @@
-# Rokas task
+# How-To
 
-Just write this command:
+Just download repo, cd into it and write this command:
 
 `php script.php input.csv`
 
