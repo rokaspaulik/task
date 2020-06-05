@@ -6,6 +6,8 @@ use RokasApp\Service\FeeCalculator;
 
 require_once realpath("vendor/autoload.php");
 
+setlocale(LC_TIME, "lt_LT");
+
 if (!isset($argv[1])) {
     echo "\nargument missing (path to csv file)";
 }

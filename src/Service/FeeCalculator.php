@@ -41,10 +41,9 @@ class FeeCalculator {
             if ($operationDate->format("W") != $lastOperationDate->format("W") || $yearDifference > 1) {
                 $this->resetUserDiscount($cashOperation->getUser());
             }
-
-        } else {
-            $this->userLastOperationDate[$userId] = $operationDate;
         }
+
+        $this->userLastOperationDate[$userId] = $operationDate;
     }
 
     private function checkUserOperationsThisWeek(User $user)
