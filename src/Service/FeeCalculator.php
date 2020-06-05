@@ -36,9 +36,11 @@ class FeeCalculator {
         if (isset($this->userLastOperationDate[$userId])) {
             
             $lastOperationDate = $this->userLastOperationDate[$userId];
-            $yearDifference = abs(($operationDate->format("Y") - $lastOperationDate->format("Y")));
 
-            if ($operationDate->format("W") != $lastOperationDate->format("W") || $yearDifference > 1) {
+            $daysDifference = date_diff($lastOperationDate,$operationDate);
+            $daysDifference = (int)$daysDifference->format("%a");
+
+            if ($operationDate->format("W") != $lastOperationDate->format("W") || $daysDifference > 30) {
                 $this->resetUserDiscount($cashOperation->getUser());
             }
         }
